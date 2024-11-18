@@ -2,6 +2,8 @@ package com.example.apiweb.model;
 
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
+import org.springframework.data.mongodb.core.mapping.MongoId;
+
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -13,6 +15,7 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 public class CursoModel {
+
     @Id
     private Integer curso_id;
     private String nombre_curso;
@@ -20,8 +23,6 @@ public class CursoModel {
     private String categoria;
     private Double costo;
     private Integer tutor_id;
-
-
 
     @Data
     @AllArgsConstructor

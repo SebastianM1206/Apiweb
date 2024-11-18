@@ -27,6 +27,7 @@ public class CursoController {
                 HttpStatus.OK);
     }
 
+    // prueba de conexión a la base de datos
     @GetMapping("/test-db")
     public ResponseEntity<String> testDatabaseConnection() {
         try {
@@ -55,30 +56,31 @@ public class CursoController {
         return ResponseEntity.ok(curso);
     }
 
-    // Actualizar la información básica del curso
+    // Actualizar la información del curso que se desee
     @PutMapping("/{cursoId}")
     public ResponseEntity<String> actualizarCursoPorId(@PathVariable Integer cursoId,
             @RequestBody CursoModel detallesCurso) {
+
         CursoModel curso = this.cursoService.obtenerCursoPorId(cursoId)
                 .orElseThrow(
-                        () -> new RecursoNoEncontradoException("Error!. No se encontró el curso con el id " + cursoId));
-        // Obtenemos los datos que se van actualizar del curso y que son enviados del
-        // json
-        String nombreActualizar = detallesCurso.getNombre_curso();
-        String modalidadActualizar = detallesCurso.getModalidad();
+                        () -> new RecursoNoEncontradoException("Error! No se encontró el curso con el id " + cursoId));
 
-        // Verificamos que estos campos actualizar no sean nulos o vacios y controlamos
-        // la excepcion
-        if (nombreActualizar != null && !nombreActualizar.isEmpty() && modalidadActualizar != null
-                && !modalidadActualizar.isEmpty()) {
-            // Asignamos los valores que vamos actualizar del curso
-            curso.setNombre_curso(nombreActualizar);
-            curso.setModalidad(modalidadActualizar);
-            // Guardamos los cambios
-            return new ResponseEntity<String>(cursoService.actualizarCursoPorId(curso), HttpStatus.OK);
-        } else {
-            throw new CamposInvalidosException("Error! El nombre y la modalidad de el curso no pueden estar vacio");
+        // Actualizar solo los campos que no son nulos en detallesCurso, para poder actualizar lo que le de la gana a uno
+        if (detallesCurso.getNombre_curso() != null && !detallesCurso.getNombre_curso().isEmpty()) {
+            curso.setNombre_curso(detallesCurso.getNombre_curso());
         }
+        if (detallesCurso.getModalidad() != null && !detallesCurso.getModalidad().isEmpty()) {
+            curso.setModalidad(detallesCurso.getModalidad());
+        }
+        if (detallesCurso.getCategoria() != null && !detallesCurso.getCategoria().isEmpty()) {
+            curso.setCategoria(detallesCurso.getCategoria());
+        }
+        if (detallesCurso.getCosto() != null && detallesCurso.getCosto() >= 0) {
+            curso.setCosto(detallesCurso.getCosto());
+        }
+
+        // Mensaje de éxito
+        return new ResponseEntity<>(cursoService.actualizarCursoPorId(curso), HttpStatus.OK);
     }
 
     @PutMapping("/{cursoId}/rating")

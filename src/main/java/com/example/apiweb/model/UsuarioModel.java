@@ -10,7 +10,7 @@ import lombok.NoArgsConstructor;
 import java.util.List;
 import java.util.Map;
 
-@Document(collection = "usuario")
+@Document(collection = "usuarios")
 @Data
 @AllArgsConstructor
 @NoArgsConstructor

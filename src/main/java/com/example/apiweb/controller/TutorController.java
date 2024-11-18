@@ -12,6 +12,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/apiweb/v1/tutor")
@@ -45,26 +46,41 @@ public class TutorController {
         return ResponseEntity.ok(tutor);
     }
 
-    // Actualizar la información básica del tutor
     @PutMapping("/{tutorId}")
     public ResponseEntity<String> actualizarTutorPorId(@PathVariable Integer tutorId,
             @RequestBody TutorModel detallesTutor) {
+        // Obtener el tutor actual por ID, o lanzar una excepción si no existe
         TutorModel tutor = this.tutorService.obtenerTutorPorId(tutorId)
-                .orElseThrow(
-                        () -> new RecursoNoEncontradoException("Error!. No se encontró el tutor con el id " + tutorId));
-        // Obtenemos los datos que se van actualizar del tutor y que son enviados del
-        // json
-        String nombreActualizar = detallesTutor.getNombre_tutor();
+                .orElseThrow(() -> new RecursoNoEncontradoException(
+                        "Error! No se encontró el tutor con el id " + tutorId));
 
-        // Verificamos que estos campos actualizar no sean nulos o vacios y controlamos
-        // la excepcion
-        if (nombreActualizar != null && !nombreActualizar.isEmpty()) {
-            // Asignamos los valores que vamos actualizar del tutor
-            tutor.setNombre_tutor(nombreActualizar);
-            // Guardamos los cambios
-            return new ResponseEntity<String>(tutorService.actualizarTutorPorId(tutor), HttpStatus.OK);
+        // Obtener los datos enviados en el JSON
+        String nombreActualizar = detallesTutor.getNombre_tutor();
+        List<Map<String, Object>> cursosActualizar = detallesTutor.getCursos();
+        List<TutorModel.Calificacion> calificacionesActualizar = detallesTutor.getCalificaciones();
+
+        // Validar que los campos no sean nulos o vacíos
+        if ((nombreActualizar != null && !nombreActualizar.isEmpty()) ||
+                (cursosActualizar != null && !cursosActualizar.isEmpty()) ||
+                (calificacionesActualizar != null && !calificacionesActualizar.isEmpty())) {
+
+            // Asignar valores actualizados si están presentes en el JSON
+            if (nombreActualizar != null && !nombreActualizar.isEmpty()) {
+                tutor.setNombre_tutor(nombreActualizar);
+            }
+            if (cursosActualizar != null && !cursosActualizar.isEmpty()) {
+                tutor.setCursos(cursosActualizar);
+            }
+            if (calificacionesActualizar != null && !calificacionesActualizar.isEmpty()) {
+                tutor.setCalificaciones(calificacionesActualizar);
+            }
+
+            // Guardar los cambios
+            tutorService.actualizarTutorPorId(tutor);
+            return new ResponseEntity<>("Tutor actualizado con éxito.", HttpStatus.OK);
+
         } else {
-            throw new CamposInvalidosException("Error! El nombre del tutor no puede estar vacio");
+            throw new CamposInvalidosException("Error! Debes proporcionar al menos un campo para actualizar.");
         }
     }
 

@@ -12,10 +12,14 @@ import java.util.Map;
 @AllArgsConstructor
 @NoArgsConstructor
 public class CursoDTO {
+
     private Integer curso_id;
     private String nombre_curso;
     private String modalidad;
-    private
+    private String categoria;
+    private Double costo;
+    private Integer tutor_id;
 
-    @JsonProperty("ratings") List<Map<String, Double>> ratings;
+    @JsonProperty("ratings")
+    List<Map<String, Double>> ratings;
 }

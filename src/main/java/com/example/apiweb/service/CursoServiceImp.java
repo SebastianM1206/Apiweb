@@ -50,19 +50,17 @@ public class CursoServiceImp implements ICursoService {
 
     @Override
     public void agregarRatingACurso(int cursoId, Rating rating) {
-        Optional<CursoModel> cursoOptional = this.cursoRepository.findById(cursoId);
-        if (cursoOptional.isPresent()) {
-            CursoModel curso = cursoOptional.get();
-            List<Rating> ratings;
-            // if (ratings == null) {
-            // ratings = new ArrayList<>();
-            // }
-            // ratings.add(rating);
-            // curso.r;
-            this.cursoRepository.save(curso);
-        } else {
-            throw new RecursoNoEncontradoException("Error! No se encontró el curso con el id " + cursoId);
+        CursoModel curso = cursoRepository.findById(cursoId)
+                .orElseThrow(() -> new RecursoNoEncontradoException("Curso con ID " + cursoId + " no encontrado"));
+
+        // Agregar el nuevo rating a la lista
+        if (curso.getRatings() == null) {
+            curso.setRatings(new ArrayList<>()); // Inicializar lista si está vacía
         }
+        curso.getRatings().add(rating);
+
+        // Guardar el curso actualizado
+        cursoRepository.save(curso);
     }
 
     @Override

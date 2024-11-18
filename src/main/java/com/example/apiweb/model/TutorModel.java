@@ -10,7 +10,7 @@ import lombok.NoArgsConstructor;
 import java.util.List;
 import java.util.Map;
 
-@Document(collection = "tutor")
+@Document(collection = "tutores")
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
@@ -21,4 +21,13 @@ public class TutorModel {
 
     @JsonProperty("cursos")
     List<Map<String, Object>> cursos;
+    private List<Calificacion> calificaciones;
+
+    @Data
+    @AllArgsConstructor
+    @NoArgsConstructor
+    public static class Calificacion {
+        private Integer usuarioId;
+        private Double rating;
+    }
 }
