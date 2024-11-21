@@ -103,9 +103,4 @@ public class TutorController {
         return new ResponseEntity<String>(tutorService.eliminarTutorPorId(tutorId), HttpStatus.OK);
     }
 
-    @GetMapping("/tutoresCursosMAN/{ratings}")
-    public ResponseEntity<List<TutorModel>> mostrarTutoresCursosMAN(@PathVariable Double ratings) {
-        List<TutorModel> tutores = tutorService.mostrarTutoresCursosMayoresAN(ratings);
-        return new ResponseEntity<>(tutores, HttpStatus.OK);
-    }
 }

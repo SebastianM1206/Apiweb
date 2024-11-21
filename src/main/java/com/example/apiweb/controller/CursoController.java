@@ -65,7 +65,8 @@ public class CursoController {
                 .orElseThrow(
                         () -> new RecursoNoEncontradoException("Error! No se encontró el curso con el id " + cursoId));
 
-        // Actualizar solo los campos que no son nulos en detallesCurso, para poder actualizar lo que le de la gana a uno
+        // Actualizar solo los campos que no son nulos en detallesCurso, para poder
+        // actualizar lo que le de la gana a uno
         if (detallesCurso.getNombre_curso() != null && !detallesCurso.getNombre_curso().isEmpty()) {
             curso.setNombre_curso(detallesCurso.getNombre_curso());
         }
@@ -77,6 +78,9 @@ public class CursoController {
         }
         if (detallesCurso.getCosto() != null && detallesCurso.getCosto() >= 0) {
             curso.setCosto(detallesCurso.getCosto());
+        }
+        if (detallesCurso.getAsistentes() != null && detallesCurso.getAsistentes() >= 0) {
+            curso.setAsistentes(detallesCurso.getAsistentes());
         }
 
         // Mensaje de éxito
@@ -102,9 +106,4 @@ public class CursoController {
         return new ResponseEntity<String>(cursoService.eliminarCursoPorId(cursoId), HttpStatus.OK);
     }
 
-    @GetMapping("/ratingsMayoresAN/{ratings}")
-    public ResponseEntity<List<CursoModel>> mostrarCursosRatingsMayoresAN(@PathVariable Double ratings) {
-        List<CursoModel> cursos = this.cursoService.mostrarCursosRatingsMayoresAN(ratings);
-        return new ResponseEntity<>(cursos, HttpStatus.OK);
-    }
 }
