@@ -15,8 +15,14 @@ public interface ICursoService {
 
     String eliminarCursoPorId(int cursoId);
 
+    List<CursoModel> getTop5CursosBySimilarCategory(String nombreCurso);
+
     String actualizarCursoPorId(CursoModel curso);
 
     void agregarRatingACurso(int cursoId, Rating rating);
+
+    List<CursoModel> getTopCursosByAsistentes();
+
+    List<CursoModel> getCursosWithLowAttendanceAndRatings();
 
 }

@@ -106,4 +106,22 @@ public class CursoController {
         return new ResponseEntity<String>(cursoService.eliminarCursoPorId(cursoId), HttpStatus.OK);
     }
 
+    @GetMapping("/recomendados")
+    public ResponseEntity<List<CursoModel>> getTop5CursosBySimilarCategory(@RequestParam String nombreCurso) {
+        List<CursoModel> cursos = cursoService.getTop5CursosBySimilarCategory(nombreCurso);
+        return ResponseEntity.ok(cursos);
+    }
+
+    @GetMapping("/recomendados/populares")
+    public ResponseEntity<List<CursoModel>> getTopCursosByAsistentes() {
+        List<CursoModel> cursos = cursoService.getTopCursosByAsistentes();
+        return ResponseEntity.ok(cursos);
+    }
+
+    @GetMapping("/recomendados/pocos-asistentes")
+    public ResponseEntity<List<CursoModel>> getCursosWithLowAttendanceAndRatings() {
+        List<CursoModel> cursos = cursoService.getCursosWithLowAttendanceAndRatings();
+        return ResponseEntity.ok(cursos);
+    }
+
 }

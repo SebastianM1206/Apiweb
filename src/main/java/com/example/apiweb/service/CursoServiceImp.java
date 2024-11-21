@@ -63,4 +63,19 @@ public class CursoServiceImp implements ICursoService {
         cursoRepository.save(curso);
     }
 
+    @Override
+    public List<CursoModel> getTop5CursosBySimilarCategory(String nombreCurso) {
+        return cursoRepository.findTop5BySimilarCategory(nombreCurso);
+    }
+
+    @Override
+    public List<CursoModel> getTopCursosByAsistentes() {
+        return cursoRepository.findTopCursosByAsistentes();
+    }
+
+    @Override
+    public List<CursoModel> getCursosWithLowAttendanceAndRatings() {
+        return cursoRepository.findCursosWithLowAttendanceAndRatings();
+    }
+
 }
