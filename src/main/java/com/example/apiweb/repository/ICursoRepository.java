@@ -6,7 +6,14 @@ import com.example.apiweb.model.CursoModel;
 
 import java.util.List;
 
-public interface ICursoRepository extends MongoRepository<CursoModel, Integer>{
-    @Aggregation("{ '$match' : { 'ratings' : { '$gt' : ?0 } } }")
+public interface ICursoRepository extends MongoRepository<CursoModel, Integer> {
+    @Aggregation(pipeline = {
+            "{ $match: { categoria: ?0 } }",
+            "{ $addFields: { calificacionPromedio: { $avg: '$ratings.rating' } } }",
+            "{ $sort: { calificacionPromedio: -1 } }",
+            "{ $limit: 5 }"
+    })
+    List<CursoModel> findTopCursosPorCategoria(String categoria);
+
     List<CursoModel> listarCursosRatingsMayoresAN(Double ratings);
 }

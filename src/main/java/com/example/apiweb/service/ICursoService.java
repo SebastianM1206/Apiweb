@@ -19,5 +19,4 @@ public interface ICursoService {
 
     void agregarRatingACurso(int cursoId, Rating rating);
 
-    List<CursoModel> mostrarCursosRatingsMayoresAN(Double ratings);
 }

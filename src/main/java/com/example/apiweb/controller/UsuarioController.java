@@ -3,7 +3,6 @@ package com.example.apiweb.controller;
 import com.example.apiweb.exception.CamposInvalidosException;
 import com.example.apiweb.exception.RecursoNoEncontradoException;
 import com.example.apiweb.model.CursoModel;
-import com.example.apiweb.model.TutorModel;
 import com.example.apiweb.model.UsuarioModel;
 import com.example.apiweb.service.ICursoService;
 import com.example.apiweb.service.IUsuarioService;

@@ -12,7 +12,7 @@ import java.util.*;
 
 @Service
 @Primary
-public class TutorServiceImp implements ITutorService{
+public class TutorServiceImp implements ITutorService {
     @Autowired
     ITutorRepository tutorRepository;
 
@@ -69,8 +69,4 @@ public class TutorServiceImp implements ITutorService{
         }
     }
 
-    @Override
-    public List<TutorModel> mostrarTutoresCursosMayoresAN(Double ratings) {
-        return this.tutorRepository.listarTutoresCursosMayoresAN(ratings);
-    }
 }

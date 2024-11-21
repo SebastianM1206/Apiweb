@@ -19,6 +19,7 @@ public class CursoModel {
     @Id
     private Integer curso_id;
     private String nombre_curso;
+    private Integer asistentes;
     private String modalidad;
     private String categoria;
     private Double costo;

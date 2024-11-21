@@ -63,8 +63,4 @@ public class CursoServiceImp implements ICursoService {
         cursoRepository.save(curso);
     }
 
-    @Override
-    public List<CursoModel> mostrarCursosRatingsMayoresAN(Double ratings) {
-        return this.cursoRepository.listarCursosRatingsMayoresAN(ratings);
-    }
 }
