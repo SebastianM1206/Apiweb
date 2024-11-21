@@ -14,6 +14,6 @@ import lombok.NoArgsConstructor;
 public class TutorNeoModel {
 
     @Id
-    private Long id_tutor;
+    private Integer id_tutor;
     private String nombre_tutor;
 }

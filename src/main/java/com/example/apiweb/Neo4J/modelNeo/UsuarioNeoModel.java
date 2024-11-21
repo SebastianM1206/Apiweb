@@ -15,9 +15,9 @@ import lombok.NoArgsConstructor;
 public class UsuarioNeoModel {
 
     @Id
-    private Long usuario_id;
-    private String nombreUsuario;
+    private Integer usuario_id;
+    private String nombre_usuario;
     private String carrera;
-    private String semestre;
+    private Integer semestre;
 
 }

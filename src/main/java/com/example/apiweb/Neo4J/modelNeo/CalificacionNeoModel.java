@@ -16,7 +16,7 @@ import lombok.NoArgsConstructor;
 public class CalificacionNeoModel {
 
     @Id
-    private Long id;
+    private Integer id;
     private Integer calificacion;
 
     @StartNode

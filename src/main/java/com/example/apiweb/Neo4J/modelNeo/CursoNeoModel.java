@@ -16,7 +16,7 @@ import lombok.NoArgsConstructor;
 public class CursoNeoModel { 
 
     @Id
-    private Long id_curso;
+    private Integer id_curso;
 
     private String nombreCurso;
     private String modalidad;
