@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.example.apiweb.Neo4J.modelNeo.CursoNeoModel;
 import com.example.apiweb.Neo4J.serviceNeo.ICursoNeoService;
+import com.example.apiweb.exception.RecursoNoEncontradoException;
 
 @RestController
 @RequestMapping("/apiweb/v1/cursoNeo")
@@ -41,41 +42,27 @@ public class CursoNeoController {
         return new ResponseEntity<>(cursos, HttpStatus.OK);
     }
 
-    // // Consultar un curso por Id en Neo4j
-    // @GetMapping("/{cursoId}")
-    // public ResponseEntity<CursoNeoModel> buscarCursoPorIdNeo(@PathVariable Integer cursoId) {
-    //     CursoNeoModel curso = cursoNeoService.obtenerCursoPorId(cursoId)
-    //             .orElseThrow(() -> new RecursoNoEncontradoException("Error! No se encontró el curso con el id " + cursoId));
-    //     return ResponseEntity.ok(curso);
-    // }
+    // Consultar un curso por Id en Neo4j 
+    @GetMapping("/{cursoId}")
+    public ResponseEntity<CursoNeoModel> buscarCursoPorIdNeo(@PathVariable Integer cursoId) {
+        CursoNeoModel curso = cursoNeoService.obtenerCursoPorId(cursoId)
+                .orElseThrow(() -> new RecursoNoEncontradoException("Error! No se encontró el curso con el id " + cursoId));
+        return ResponseEntity.ok(curso);
+    }
 
-    // // Actualizar la información del curso en Neo4j
-    // @PutMapping("/{cursoId}")
-    // public ResponseEntity<String> actualizarCursoPorIdNeo(@PathVariable Integer cursoId, @RequestBody CursoModel detallesCurso) {
-    //     CursoNeoModel curso = cursoNeoService.obtenerCursoPorId(cursoId)
-    //             .orElseThrow(() -> new RecursoNoEncontradoException("Error! No se encontró el curso con el id " + cursoId));
+    // Actualizar un Curso en Neo4j
+    @PutMapping("/")
+    public ResponseEntity<CursoNeoModel> actualizarCursoNeo(@RequestBody CursoNeoModel curso) {
+        CursoNeoModel cursoActualizado = cursoNeoService.actualizarCurso(curso)
+                .orElseThrow(() -> new RecursoNoEncontradoException("Error! No se encontró el curso con el id " + curso.getId_curso()));
+        return ResponseEntity.ok(cursoActualizado);
+    }
 
-    //     if (detallesCurso.getNombre_curso() != null && !detallesCurso.getNombre_curso().isEmpty()) {
-    //         curso.setNombre_curso(detallesCurso.getNombre_curso());
-    //     }
-    //     if (detallesCurso.getModalidad() != null && !detallesCurso.getModalidad().isEmpty()) {
-    //         curso.setModalidad(detallesCurso.getModalidad());
-    //     }
-    //     if (detallesCurso.getCategoria() != null && !detallesCurso.getCategoria().isEmpty()) {
-    //         curso.setCategoria(detallesCurso.getCategoria());
-    //     }
-    //     if (detallesCurso.getCosto() != null && detallesCurso.getCosto() >= 0) {
-    //         curso.setCosto(detallesCurso.getCosto());
-    //     }
-
-    //     return new ResponseEntity<>(cursoNeoService.actualizarCursoPorId(curso), HttpStatus.OK);
-    // }
-
-    // // Eliminar un Curso por Id en Neo4j
-    // @DeleteMapping("/{cursoId}")
-    // public ResponseEntity<String> eliminarCursoPorIdNeo(@PathVariable Integer cursoId) {
-    //     CursoNeoModel curso = cursoNeoService.obtenerCursoPorId(cursoId)
-    //             .orElseThrow(() -> new RecursoNoEncontradoException("Error! No se encontró el curso con el id " + cursoId));
-    //     return new ResponseEntity<>(cursoNeoService.eliminarCursoPorId(cursoId), HttpStatus.OK);
-    // }
+    // Eliminar un Curso por Id en Neo4j
+    @DeleteMapping("/{cursoId}")
+    public ResponseEntity<String> eliminarCursoPorIdNeo(@PathVariable Integer cursoId) {
+        cursoNeoService.obtenerCursoPorId(cursoId)
+                .orElseThrow(() -> new RecursoNoEncontradoException("Error! No se encontró el curso con el id " + cursoId));
+        return new ResponseEntity<>(cursoNeoService.eliminarCurso(cursoId), HttpStatus.OK);
+    }
 }
